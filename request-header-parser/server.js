@@ -26,11 +26,11 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/whoami", function (req, res) {
   console.log(req.headers);
-  var ip = req.ip;
+  var ip = req.headers['x-forwarded-for'].split(',')[0] || req.connection.remoteAddress;
   var languages = req.headers["accept-language"];
   var software = req.headers["user-agent"];
   res.json({ ipaddress: ip, language: languages, software: software });
-})
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
